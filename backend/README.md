@@ -90,6 +90,145 @@ You will need to provide detailed documentation of your API endpoints including 
 }
 ```
 
+## Documentation
+
+`GET '/questions'`
+
+- Fetches a paginated list of questions, a dictionary of categories from which the questions were drawn.
+- There are no request arguments required
+- Returns a jsonify object conatining key-value pairs of categories, questions, total number of question.
+
+- Example:
+
+```json
+  {
+    "categories": {
+    "1": "Science",
+    "2": "Art",
+    "3": "Geography",
+    "4": "History",
+    "5": "Entertainment",
+    "6": "Sports"
+    },
+    "questions": [
+    {
+    "answer": "Apollo 13",
+    "category": 5,
+    "difficulty": 4,
+    "id": 2,
+    "question": "What movie earned Tom Hanks his third straight Oscar nomination, in 1996?"
+    }]
+```
+
+`GET '/categories/<int:category>/questions'`
+
+- Takes an integer argument, category
+- Fetches a list of questions based on the specified category
+- Returns an object containing the current category, list of questions in that category and the number of questions in that category just like in the above get request.
+- Example:
+
+```json
+  {
+    "current_categories": 5,
+    "total_question": 1,
+    "questions": [
+    {
+    "answer": "Apollo 13",
+    "category": 5,
+    "difficulty": 4,
+    "id": 2,
+    "question": "What movie earned Tom Hanks his third straight Oscar nomination, in 1996?"
+    }]
+```
+
+`POST '/questions'`
+
+- Takes a form submission in json from the client, e.g
+  {
+  'question': 'question',
+  'answer': 'answer',
+  'difficulty': 2,
+  'category': 4
+  }
+- Parses the json and creates a new question in the database
+- No request arguments are required
+- Returns a json object with the following information
+
+```json
+  {
+    "added": 222,
+    "success": True
+  }
+```
+
+`DELETE '/questions/<int:question_id>'`
+
+- Takes a question id argument
+- Fetches the question by the id
+- Performs a delete operation and permanently deletes the question from the db
+- Return an object containing the status of the question the deleted and the status if the operation
+- Example:
+
+```json
+{
+  "deleted": True,
+  "success": True
+
+}
+```
+
+`POST '/questions'`
+
+- Searches for a question based on the search term. The search opeartion is not case sensitive.
+- No request arguments are required.
+- Returns all questions for which the search term is a substring.
+
+- Example:
+
+```json
+{"search_term": "xyz"}
+returns
+{
+  "questions": [
+    {
+      "answer": "answer1",
+      "category": 2,
+      "difficulty": 2,
+      "id": 40,
+      "question": "lorem ipsum...?"
+    },
+    {
+      "answer": "answer2",
+      "category": 6,
+      "difficulty": 1,
+      "id": 49,
+      "question": "where is the meat?"
+    }
+  ]
+}
+```
+
+`POST '/quizzes'`
+
+- No request arguments are required
+- Fetches all questions and checks to see if any has been asked previously. In the event that there are previous questions, the questions will be filtered out of the fetched questions.
+- Returns a random question from the list of filtered questions.
+
+- Example
+
+```json
+{
+  "question": {
+    "answer": "Apollo 13",
+    "category": 5,
+    "difficulty": 4,
+    "id": 2,
+    "question": "What movie earned Tom Hanks his third straight Oscar nomination, in 1996?"
+    }
+  "success": true
+}
+```
+
 ## Testing
 
 Write at least one test for the success and at least one error behavior of each endpoint using the unittest library.
